@@ -29,6 +29,13 @@
     .marquee-track .w { font-family:'DM Serif Display',serif; font-size:3.8rem; display:inline-block; margin-right:.6rem; }
     .marquee-track .dot { color:#c5a29b; font-size:1.5rem; display:inline-block; margin:0 1rem; align-self:center; }
     @keyframes marquee { 0%{transform:translateX(0)} 100%{transform:translateX(-50%)} }
+    .photo-marquee { overflow:hidden; margin-top:5rem; border-top:1px solid var(--line); border-bottom:1px solid var(--line); padding:1.25rem 0; }
+    .photo-marquee-track { display:flex; width:max-content; gap:1rem; animation:photoScroll 28s linear infinite; }
+    .photo-marquee:hover .photo-marquee-track { animation-play-state:paused; }
+    .photo-marquee-card { width:clamp(150px,18vw,260px); aspect-ratio:3/4; flex:none; overflow:hidden; }
+    .photo-marquee-card img { width:100%; height:100%; object-fit:cover; display:block; filter:saturate(.92); }
+    @keyframes photoScroll { 0%{transform:translateX(0)} 100%{transform:translateX(-50%)} }
+    @media (prefers-reduced-motion:reduce) { .photo-marquee-track { animation:none; } }
     .hero-gallery { position:relative; width:100%; height:100%; background:transparent; cursor:grab; user-select:none; overflow:hidden; touch-action:none; }
     .hero-slide { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; opacity:0; pointer-events:none; }
     .hero-slide.base { z-index:1; opacity:1; }
@@ -90,10 +97,15 @@
     </section>
     <section id="archive" class="px-6 py-24 md:px-14 md:py-32">
       <div class="mb-14 flex items-end justify-between"><div><p class="number mb-4">02 / SELECTED MOMENTS</p><h2 class="serif text-5xl md:text-6xl">Visual archive</h2></div><p class="hidden md:block max-w-[210px] text-right text-xs leading-6 text-[#817b76]">Four moods. One unmistakable presence.</p></div>
-      <div class="grid grid-cols-1 gap-5 md:grid-cols-12 md:gap-7">
-        <article class="md:col-span-5 md:mt-16 reveal"><div class="photo aspect-[4/5]"><img src="gyj-assets/hanbok.jpg" alt="Go Youn Jung in pink traditional costume"></div><div class="flex justify-between pt-4"><h3 class="serif text-2xl">A timeless scene</h3><span class="number">01</span></div><p class="mt-2 text-xs text-[#817b76]">Character / quiet strength</p></article>
-        <article class="md:col-span-4 reveal" style="animation-delay:.15s"><div class="photo aspect-[9/14]"><img src="gyj-assets/water-portrait.jpg" alt="Go Youn Jung portrait beside water"></div><div class="flex justify-between pt-4"><h3 class="serif text-2xl">Between frames</h3><span class="number">02</span></div><p class="mt-2 text-xs text-[#817b76]">Candid / stillness</p></article>
-        <article class="md:col-span-3 md:mt-32 reveal" style="animation-delay:.3s"><div class="photo aspect-[3/4]"><img src="gyj-assets/cinematic.jpg" alt="Go Youn Jung in cinematic night portrait"></div><div class="flex justify-between pt-4"><h3 class="serif text-2xl">After dusk</h3><span class="number">03</span></div><p class="mt-2 text-xs text-[#817b76]">Cinema / atmosphere</p></article>
+      <div class="photo-marquee reveal" aria-label="Go Youn Jung photo archive; moves from right to left">
+        <div class="photo-marquee-track">
+          <figure class="photo-marquee-card"><img src="gyj-assets/added-hanbok.jpg" alt="Go Youn Jung in traditional pink costume"></figure>
+          <figure class="photo-marquee-card"><img src="gyj-assets/added-black.jpg" alt="Go Youn Jung portrait in black outfit"></figure>
+          <figure class="photo-marquee-card"><img src="gyj-assets/added-stripes.jpg" alt="Go Youn Jung portrait in striped sweater"></figure>
+          <figure class="photo-marquee-card"><img src="gyj-assets/added-hanbok.jpg" alt="" aria-hidden="true"></figure>
+          <figure class="photo-marquee-card"><img src="gyj-assets/added-black.jpg" alt="" aria-hidden="true"></figure>
+          <figure class="photo-marquee-card"><img src="gyj-assets/added-stripes.jpg" alt="" aria-hidden="true"></figure>
+        </div>
       </div>
       <div class="marquee" aria-label="Go Youn Jung">
         <div class="marquee-track">
