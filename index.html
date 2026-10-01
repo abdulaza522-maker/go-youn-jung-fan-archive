@@ -118,9 +118,9 @@
     let isDragging = false;
     let startPoint = { x: 0, y: 0 };
     let rect = null;
-    let maxRadius = 0;
-    let progress = 0;          // 0 -> 1, how far the reveal has grown
-    const GROW_DISTANCE = 340; // px of drag needed for full reveal
+    const SPOT_RADIUS = 130; // fixed circle radius in px
+    const SWITCH_DISTANCE = 280; // px drag to switch photo
+    let totalDrag = 0;
 
     function updateDots(i) {
       dots.forEach((d, idx) => d.classList.toggle('active', idx === i));
@@ -130,7 +130,7 @@
     function settle(idx) {
       currentIndex = idx;
       isDragging = false;
-      progress = 0;
+      totalDrag = 0;
       slides.forEach((s, i) => {
         s.classList.toggle('base', i === currentIndex);
         s.classList.remove('reveal');
@@ -140,11 +140,10 @@
       updateDots(currentIndex);
     }
 
-    function paintReveal(x, y, p) {
+    function paintReveal(x, y) {
       const nextIdx = (currentIndex + 1) % slides.length;
-      const r = Math.max(0, p) * maxRadius;
       slides[nextIdx].classList.add('reveal');
-      slides[nextIdx].style.clipPath = `circle(${r}px at ${x}px ${y}px)`;
+      slides[nextIdx].style.clipPath = `circle(${SPOT_RADIUS}px at ${x}px ${y}px)`;
     }
 
     function computeMaxRadius(x, y) {
@@ -163,28 +162,25 @@
       const x = e.clientX - rect.left;
       const y = e.clientY - rect.top;
       startPoint = { x: e.clientX, y: e.clientY };
-      maxRadius = computeMaxRadius(x, y);
       isDragging = true;
-      progress = 0;
+      totalDrag = 0;
       heroGallery.style.cursor = 'grabbing';
-      paintReveal(x, y, 0);
+      paintReveal(x, y);
     });
 
     document.addEventListener('mousemove', (e) => {
       if (!isDragging) return;
       const x = e.clientX - rect.left;
       const y = e.clientY - rect.top;
-      // Radius follows BOTH cursor position and drag distance
-      const drag = Math.hypot(e.clientX - startPoint.x, e.clientY - startPoint.y);
-      progress = Math.min(1, drag / GROW_DISTANCE);
-      paintReveal(x, y, progress);
+      paintReveal(x, y);
 
-      if (progress >= 1) settle((currentIndex + 1) % slides.length);
+      // Accumulate total drag distance for switch threshold
+      totalDrag += Math.hypot(e.movementX, e.movementY);
+      if (totalDrag >= SWITCH_DISTANCE) settle((currentIndex + 1) % slides.length);
     });
 
     document.addEventListener('mouseup', () => {
       if (!isDragging) return;
-      // Released before full reveal -> cancel
       settle(currentIndex);
     });
 
