@@ -69,7 +69,7 @@
   <main id="top">
     <section class="grid md:grid-cols-[1.15fr_.85fr] min-h-[620px] border-b border-[#e7e2dd]">
       <div class="flex flex-col justify-center px-6 py-20 md:px-20 reveal">
-        <p class="number mb-8">01 / GO YOUN JUNG</p>
+        <p class="number mb-8" id="sideName" data-latin="01 / GO YOUN JUNG" data-korean="01 / 고윤정" style="cursor:grab;user-select:none;touch-action:none">01 / GO YOUN JUNG</p>
         <h1 class="serif hero-title text-[5.8rem] md:text-[8.5rem] leading-[.82] tracking-[-.04em]">Go<br><i>Youn</i><br>Jung<span class="text-[#c5a29b]">.</span></h1>
         <p class="mt-10 max-w-sm text-sm leading-7 text-[#817b76]">A quiet archive for actress, model, and stories behind every character.</p>
         <a href="#archive" class="mt-10 flex items-center gap-4 text-[10px] tracking-wide-custom">EXPLORE ARCHIVE <span class="text-xl">↓</span></a>
@@ -85,7 +85,7 @@
             <span class="hero-dot" data-i="2"></span>
           </div>
         </div>
-        <div class="absolute bottom-6 left-6 text-white text-[10px] tracking-wide-custom z-10"><span id="heroLabel">GO YOUN JUNG</span></div>
+        <div class="absolute bottom-6 left-6 text-white text-[10px] tracking-wide-custom z-10"><span id="heroLabel" data-latin="GO YOUN JUNG" data-korean="고윤정" style="cursor:grab;user-select:none;touch-action:none">GO YOUN JUNG</span></div>
       </div>
     </section>
     <section id="archive" class="px-6 py-24 md:px-14 md:py-32">
@@ -257,4 +257,20 @@
       assetsReady = true;
       closePreloaderWhenReady();
     }, { once:true });
+
+    // Drag elements downward to switch text to Korean
+    function dragToKorean(el, threshold = 120) {
+      let down = false, startY = 0;
+      el.addEventListener('mousedown', (e) => {
+        down = true; startY = e.clientY; el.style.cursor = 'grabbing'; e.preventDefault();
+      });
+      document.addEventListener('mousemove', (e) => {
+        if (!down || e.clientY - startY < threshold) return;
+        el.textContent = el.dataset.korean;
+        down = false;
+      });
+      document.addEventListener('mouseup', () => { down = false; el.style.cursor = 'grab'; });
+    }
+    dragToKorean(document.getElementById('sideName'));
+    dragToKorean(document.getElementById('heroLabel'));
   </script>
