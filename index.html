@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Go Youn Jung — Fan Archive</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root { --ink:#191817; --muted:#817b76; --line:#e7e2dd; --rose:#ead8d4; --paper:#fcfbf9; }
+    * { box-sizing:border-box; }
+    html { scroll-behavior:smooth; }
+    body { margin:0; background:var(--paper); color:var(--ink); font-family:'Manrope',sans-serif; }
+    .serif { font-family:'DM Serif Display',serif; }
+    .tracking-wide-custom { letter-spacing:.22em; }
+    .photo { overflow:hidden; background:#eee9e4; }
+    .photo img { width:100%; height:100%; display:block; object-fit:cover; transition:transform .8s cubic-bezier(.2,.7,.2,1), filter .8s; }
+    .photo:hover img { transform:scale(1.045); filter:saturate(1.08); }
+    .reveal { animation:rise .9s both; }
+    @keyframes rise { from { opacity:0; transform:translateY(22px); } to { opacity:1; transform:none; } }
+    .line-link { position:relative; }
+    .line-link:after { content:''; position:absolute; left:0; right:100%; bottom:-7px; height:1px; background:currentColor; transition:right .35s; }
+    .line-link:hover:after { right:0; }
+    .number { color:#b1aaa4; font-size:.7rem; letter-spacing:.2em; }
+    .marquee { overflow:hidden; padding:2.5rem 0 1.5rem; border-top:1px solid var(--line); }
+    .marquee-track { display:flex; gap:0; white-space:nowrap; animation:marquee 14s linear infinite; }
+    .marquee-track .w { font-family:'DM Serif Display',serif; font-size:3.8rem; display:inline-block; margin-right:.6rem; }
+    .marquee-track .dot { color:#c5a29b; font-size:1.5rem; display:inline-block; margin:0 1rem; align-self:center; }
+    @keyframes marquee { 0%{transform:translateX(0)} 100%{transform:translateX(-50%)} }
+    .hero-gallery { position:relative; width:100%; height:100%; background:transparent; cursor:grab; user-select:none; overflow:hidden; touch-action:none; }
+    .hero-slide { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; opacity:0; pointer-events:none; }
+    .hero-slide.base { z-index:1; opacity:1; }
+    .hero-slide.reveal { z-index:2; opacity:1; clip-path:circle(0px at 50% 50%); }
+    .hero-dots { position:absolute; bottom:1.5rem; right:1.5rem; display:flex; gap:.6rem; z-index:20; }
+    .hero-dot { width:.4rem; height:.4rem; border-radius:50%; background:rgba(255,255,255,.4); cursor:pointer; transition:all .3s; }
+    .hero-dot.active { background:#fff; width:.8rem; border-radius:2px; }
+    .hero-dot:hover { background:rgba(255,255,255,.8); }
+    /* Preloader */
+    #preloader { position:fixed; inset:0; z-index:9999; background:var(--paper); display:flex; flex-direction:column; align-items:center; justify-content:center; gap:1.6rem; transition:opacity .8s ease, visibility .8s ease; }
+    #preloader.done { opacity:0; visibility:hidden; }
+    .pl-name { font-family:'DM Serif Display',serif; font-size:clamp(2.6rem,9vw,6rem); line-height:1; letter-spacing:-.02em; overflow:hidden; }
+    .pl-name span { display:inline-block; transform:translateY(110%); animation:plUp .9s cubic-bezier(.2,.7,.2,1) forwards; }
+    .pl-name span:nth-child(1){ animation-delay:.05s } .pl-name span:nth-child(2){ animation-delay:.14s }
+    .pl-name span:nth-child(3){ animation-delay:.23s } .pl-name span:nth-child(4){ animation-delay:.32s }
+    @keyframes plUp { to { transform:translateY(0); } }
+    .pl-bar { width:min(320px,58vw); height:1px; background:var(--line); position:relative; overflow:hidden; }
+    .pl-bar i { position:absolute; inset:0 auto 0 0; width:0%; background:var(--ink); animation:plFill 2s cubic-bezier(.4,0,.2,1) forwards; }
+    @keyframes plFill { to { width:100%; } }
+    .pl-meta { display:flex; justify-content:space-between; width:min(320px,58vw); font-size:.6rem; letter-spacing:.24em; color:var(--muted); }
+    .pl-pct { font-variant-numeric:tabular-nums; }
+    @media (max-width:640px) { .hero-title { font-size:4.4rem; } .marquee-track .w { font-size:2.4rem; } .marquee-track .dot { font-size:1rem; margin:0 .5rem; } .hero-dots { bottom:1rem; right:1rem; gap:.4rem; } }
+  </style>
+</head>
+<body>
+  <div id="preloader" role="status" aria-label="Loading">
+    <div class="pl-name"><span>Go</span> <span>Youn</span> <span>Jung</span><span class="text-[#c5a29b]">.</span></div>
+    <div class="pl-bar"><i></i></div>
+    <div class="pl-meta"><span>FAN ARCHIVE</span><span class="pl-pct">00%</span></div>
+  </div>
+  <nav class="flex items-center justify-between px-6 py-6 md:px-14 border-b border-[#e7e2dd]">
+    <a href="#top" class="serif text-2xl">GYJ<span class="text-[#b99b94]">.</span></a>
+    <div class="hidden md:flex items-center gap-10 text-[10px] tracking-wide-custom text-[#6f6964]">
+      <a class="line-link" href="#archive">ARCHIVE</a><a class="line-link" href="#works">WORKS</a><a class="line-link" href="#about">ABOUT</a>
+    </div>
+    <a href="#about" class="rounded-full border border-[#d8d0ca] px-4 py-2 text-[10px] tracking-wide-custom hover:bg-[#191817] hover:text-white transition">FAN SITE</a>
+  </nav>
+  <main id="top">
+    <section class="grid md:grid-cols-[1.15fr_.85fr] min-h-[620px] border-b border-[#e7e2dd]">
+      <div class="flex flex-col justify-center px-6 py-20 md:px-20 reveal">
+        <p class="number mb-8">01 / GO YOUN JUNG</p>
+        <h1 class="serif hero-title text-[5.8rem] md:text-[8.5rem] leading-[.82] tracking-[-.04em]">Go<br><i>Youn</i><br>Jung<span class="text-[#c5a29b]">.</span></h1>
+        <p class="mt-10 max-w-sm text-sm leading-7 text-[#817b76]">A quiet archive for actress, model, and stories behind every character.</p>
+        <a href="#archive" class="mt-10 flex items-center gap-4 text-[10px] tracking-wide-custom">EXPLORE ARCHIVE <span class="text-xl">↓</span></a>
+      </div>
+      <div class="relative min-h-[480px] md:min-h-0 photo">
+        <div class="hero-gallery" id="heroGallery">
+          <img src="gyj-assets/portrait-glam.jpeg" alt="Go Youn Jung in elegant silver dress" class="hero-slide active">
+          <img src="gyj-assets/hanbok.jpg" alt="Go Youn Jung in pink traditional costume" class="hero-slide">
+          <img src="gyj-assets/cinematic.jpg" alt="Go Youn Jung in cinematic night portrait" class="hero-slide">
+          <div class="hero-dots">
+            <span class="hero-dot active" data-i="0"></span>
+            <span class="hero-dot" data-i="1"></span>
+            <span class="hero-dot" data-i="2"></span>
+          </div>
+        </div>
+        <div class="absolute bottom-6 left-6 text-white text-[10px] tracking-wide-custom z-10"><span id="heroLabel">PORTRAIT / 2025</span></div>
+      </div>
+    </section>
+    <section id="archive" class="px-6 py-24 md:px-14 md:py-32">
+      <div class="mb-14 flex items-end justify-between"><div><p class="number mb-4">02 / SELECTED MOMENTS</p><h2 class="serif text-5xl md:text-6xl">Visual archive</h2></div><p class="hidden md:block max-w-[210px] text-right text-xs leading-6 text-[#817b76]">Four moods. One unmistakable presence.</p></div>
+      <div class="grid grid-cols-1 gap-5 md:grid-cols-12 md:gap-7">
+        <article class="md:col-span-5 md:mt-16 reveal"><div class="photo aspect-[4/5]"><img src="gyj-assets/hanbok.jpg" alt="Go Youn Jung in pink traditional costume"></div><div class="flex justify-between pt-4"><h3 class="serif text-2xl">A timeless scene</h3><span class="number">01</span></div><p class="mt-2 text-xs text-[#817b76]">Character / quiet strength</p></article>
+        <article class="md:col-span-4 reveal" style="animation-delay:.15s"><div class="photo aspect-[9/14]"><img src="gyj-assets/water-portrait.jpg" alt="Go Youn Jung portrait beside water"></div><div class="flex justify-between pt-4"><h3 class="serif text-2xl">Between frames</h3><span class="number">02</span></div><p class="mt-2 text-xs text-[#817b76]">Candid / stillness</p></article>
+        <article class="md:col-span-3 md:mt-32 reveal" style="animation-delay:.3s"><div class="photo aspect-[3/4]"><img src="gyj-assets/cinematic.jpg" alt="Go Youn Jung in cinematic night portrait"></div><div class="flex justify-between pt-4"><h3 class="serif text-2xl">After dusk</h3><span class="number">03</span></div><p class="mt-2 text-xs text-[#817b76]">Cinema / atmosphere</p></article>
+      </div>
+      <div class="marquee" aria-label="Go Youn Jung">
+        <div class="marquee-track">
+          <span class="w">GO</span><span class="dot">✦</span><span class="w">YOUN</span><span class="dot">✦</span><span class="w">JUNG</span><span class="dot">✦</span>
+          <span class="w">GO</span><span class="dot">✦</span><span class="w">YOUN</span><span class="dot">✦</span><span class="w">JUNG</span><span class="dot">✦</span>
+          <span class="w">GO</span><span class="dot">✦</span><span class="w">YOUN</span><span class="dot">✦</span><span class="w">JUNG</span><span class="dot">✦</span>
+          <span class="w">GO</span><span class="dot">✦</span><span class="w">YOUN</span><span class="dot">✦</span><span class="w">JUNG</span><span class="dot">✦</span>
+        </div>
+      </div>
+    </section>
+    <section id="works" class="border-y border-[#e7e2dd] px-6 py-24 md:px-14 md:py-32"><div class="grid md:grid-cols-[.7fr_1.3fr] gap-14"><div><p class="number mb-4">03 / WORKS</p><h2 class="serif text-5xl">On screen</h2></div><div class="divide-y divide-[#e7e2dd]"><div class="flex items-center justify-between py-5"><div><p class="text-xs text-[#b1aaa4]">2023</p><h3 class="serif text-3xl">Moving</h3></div><span class="text-xs text-[#817b76]">Jang Hee-soo</span></div><div class="flex items-center justify-between py-5"><div><p class="text-xs text-[#b1aaa4]">2022</p><h3 class="serif text-3xl">Alchemy of Souls</h3></div><span class="text-xs text-[#817b76]">Jin Bu-yeon</span></div><div class="flex items-center justify-between py-5"><div><p class="text-xs text-[#b1aaa4]">2022</p><h3 class="serif text-3xl">Hunt</h3></div><span class="text-xs text-[#817b76]">Jo Yoo-jung</span></div><div class="flex items-center justify-between py-5"><div><p class="text-xs text-[#b1aaa4]">2020</p><h3 class="serif text-3xl">Sweet Home</h3></div><span class="text-xs text-[#817b76]">Park Yu-ri</span></div></div></div></section>
+    <section id="about" class="grid md:grid-cols-2 bg-[#f1e8e4] px-6 py-24 md:px-14 md:py-32"><div><p class="number mb-4">04 / ABOUT</p><h2 class="serif max-w-md text-5xl leading-tight">Fan-made space for evolving artist.</h2></div><div class="mt-10 max-w-lg text-sm leading-8 text-[#6f6964] md:mt-0"><p>Go Youn Jung is South Korean actress and model, born April 22, 1996. Her work balances softness and intensity, from quiet close-ups to action-driven characters.</p><p class="mt-6">Independent fan site. Images belong to respective owners and appear for editorial fan appreciation.</p><div class="mt-10 flex gap-8 text-[10px] tracking-wide-custom"><a class="line-link" href="#top">BACK TO TOP ↑</a><a class="line-link" href="https://www.instagram.com/goyounjung/" target="_blank" rel="noreferrer">INSTAGRAM ↗</a></div></div></section>
+  </main>
+  <script>
+    const heroGallery = document.getElementById('heroGallery');
+    const slides = document.querySelectorAll('.hero-slide');
+    const dots = document.querySelectorAll('.hero-dot');
+    const label = document.getElementById('heroLabel');
+    const labels = ['PORTRAIT / 2025', 'CHARACTER / TIMELESS', 'CINEMA / NIGHT'];
+
+    let currentIndex = 0;
+    let isDragging = false;
+    let startPoint = { x: 0, y: 0 };
+    let rect = null;
+    let maxRadius = 0;
+    let progress = 0;          // 0 -> 1, how far the reveal has grown
+    const GROW_DISTANCE = 340; // px of drag needed for full reveal
+
+    function updateDots(i) {
+      dots.forEach((d, idx) => d.classList.toggle('active', idx === i));
+      label.textContent = labels[i];
+    }
+
+    function settle(idx) {
+      currentIndex = idx;
+      isDragging = false;
+      progress = 0;
+      slides.forEach((s, i) => {
+        s.classList.toggle('base', i === currentIndex);
+        s.classList.remove('reveal');
+        s.style.clipPath = '';
+      });
+      heroGallery.style.cursor = 'grab';
+      updateDots(currentIndex);
+    }
+
+    function paintReveal(x, y, p) {
+      const nextIdx = (currentIndex + 1) % slides.length;
+      const r = Math.max(0, p) * maxRadius;
+      slides[nextIdx].classList.add('reveal');
+      slides[nextIdx].style.clipPath = `circle(${r}px at ${x}px ${y}px)`;
+    }
+
+    function computeMaxRadius(x, y) {
+      const w = rect.width, h = rect.height;
+      return Math.max(
+        Math.hypot(x, y),
+        Math.hypot(w - x, y),
+        Math.hypot(x, h - y),
+        Math.hypot(w - x, h - y)
+      );
+    }
+
+    heroGallery.addEventListener('mousedown', (e) => {
+      e.preventDefault();
+      rect = heroGallery.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      startPoint = { x: e.clientX, y: e.clientY };
+      maxRadius = computeMaxRadius(x, y);
+      isDragging = true;
+      progress = 0;
+      heroGallery.style.cursor = 'grabbing';
+      paintReveal(x, y, 0);
+    });
+
+    document.addEventListener('mousemove', (e) => {
+      if (!isDragging) return;
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      // Radius follows BOTH cursor position and drag distance
+      const drag = Math.hypot(e.clientX - startPoint.x, e.clientY - startPoint.y);
+      progress = Math.min(1, drag / GROW_DISTANCE);
+      paintReveal(x, y, progress);
+
+      if (progress >= 1) settle((currentIndex + 1) % slides.length);
+    });
+
+    document.addEventListener('mouseup', () => {
+      if (!isDragging) return;
+      // Released before full reveal -> cancel
+      settle(currentIndex);
+    });
+
+    heroGallery.addEventListener('mouseleave', (e) => {
+      if (isDragging && e.buttons === 0) settle(currentIndex);
+    });
+
+    dots.forEach(dot => {
+      dot.addEventListener('click', () => settle(parseInt(dot.dataset.i)));
+    });
+
+    // init
+    slides.forEach((s, i) => {
+      s.classList.toggle('base', i === currentIndex);
+      s.classList.remove('reveal');
+      s.style.clipPath = '';
+    });
+    updateDots(currentIndex);
+
+    // Preloader: keep screen until visual assets finish loading.
+    const preloader = document.getElementById('preloader');
+    const percent = document.querySelector('.pl-pct');
+    const MIN_LOAD_TIME = 2000;
+    const startedAt = performance.now();
+    let loaded = 0;
+    let assetsReady = false;
+    let preloaderDone = false;
+    const assetImages = [...document.images];
+    const total = assetImages.length || 1;
+
+    function closePreloaderWhenReady() {
+      if (!assetsReady || preloaderDone) return;
+      const remaining = Math.max(0, MIN_LOAD_TIME - (performance.now() - startedAt));
+      preloaderDone = true;
+      setTimeout(() => preloader.classList.add('done'), remaining + 80);
+    }
+
+    const markLoaded = () => {
+      loaded = Math.min(total, loaded + 1);
+      percent.textContent = String(Math.round((loaded / total) * 100)).padStart(2, '0') + '%';
+      if (loaded >= total) {
+        assetsReady = true;
+        closePreloaderWhenReady();
+      }
+    };
+
+    assetImages.forEach(img => {
+      if (img.complete) markLoaded();
+      else { img.addEventListener('load', markLoaded, { once:true }); img.addEventListener('error', markLoaded, { once:true }); }
+    });
+    window.addEventListener('load', () => {
+      if (loaded < total) { loaded = total; percent.textContent = '100%'; }
+      assetsReady = true;
+      closePreloaderWhenReady();
+    }, { once:true });
+  </script>
