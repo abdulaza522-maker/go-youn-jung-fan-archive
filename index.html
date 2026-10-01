@@ -85,7 +85,7 @@
             <span class="hero-dot" data-i="2"></span>
           </div>
         </div>
-        <div class="absolute bottom-6 left-6 text-white text-[10px] tracking-wide-custom z-10"><span id="heroLabel">PORTRAIT / 2025</span></div>
+        <div class="absolute bottom-6 left-6 text-white text-[10px] tracking-wide-custom z-10"><span id="heroLabel">GO YOUN JUNG</span></div>
       </div>
     </section>
     <section id="archive" class="px-6 py-24 md:px-14 md:py-32">
@@ -95,8 +95,8 @@
         <article class="md:col-span-4 reveal" style="animation-delay:.15s"><div class="photo aspect-[9/14]"><img src="gyj-assets/water-portrait.jpg" alt="Go Youn Jung portrait beside water"></div><div class="flex justify-between pt-4"><h3 class="serif text-2xl">Between frames</h3><span class="number">02</span></div><p class="mt-2 text-xs text-[#817b76]">Candid / stillness</p></article>
         <article class="md:col-span-3 md:mt-32 reveal" style="animation-delay:.3s"><div class="photo aspect-[3/4]"><img src="gyj-assets/cinematic.jpg" alt="Go Youn Jung in cinematic night portrait"></div><div class="flex justify-between pt-4"><h3 class="serif text-2xl">After dusk</h3><span class="number">03</span></div><p class="mt-2 text-xs text-[#817b76]">Cinema / atmosphere</p></article>
       </div>
-      <div id="langTrigger" class="marquee cursor-grab select-none" aria-label="Go Youn Jung — drag downward to switch language">
-        <div id="marqueeName" class="marquee-track">
+      <div class="marquee" aria-label="Go Youn Jung">
+        <div class="marquee-track">
           <span class="w">GO</span><span class="dot">✦</span><span class="w">YOUN</span><span class="dot">✦</span><span class="w">JUNG</span><span class="dot">✦</span>
           <span class="w">GO</span><span class="dot">✦</span><span class="w">YOUN</span><span class="dot">✦</span><span class="w">JUNG</span><span class="dot">✦</span>
           <span class="w">GO</span><span class="dot">✦</span><span class="w">YOUN</span><span class="dot">✦</span><span class="w">JUNG</span><span class="dot">✦</span>
@@ -112,7 +112,28 @@
     const slides = document.querySelectorAll('.hero-slide');
     const dots = document.querySelectorAll('.hero-dot');
     const label = document.getElementById('heroLabel');
-    const labels = ['PORTRAIT / 2025', 'CHARACTER / TIMELESS', 'CINEMA / NIGHT'];
+    const labels = ['GO YOUN JUNG', 'GO YOUN JUNG', 'GO YOUN JUNG'];
+    const koreanLabel = '고윤정';
+    let labelDown = false;
+    let labelStartY = 0;
+    
+    label.addEventListener('mousedown', (e) => {
+      labelDown = true;
+      labelStartY = e.clientY;
+      label.style.cursor = 'grabbing';
+      e.preventDefault();
+    });
+    
+    document.addEventListener('mousemove', (e) => {
+      if (!labelDown || e.clientY - labelStartY < 120) return;
+      label.textContent = koreanLabel;
+      labelDown = false;
+    });
+    
+    document.addEventListener('mouseup', () => {
+      labelDown = false;
+      label.style.cursor = 'grab';
+    });
 
     let currentIndex = 0;
     let isDragging = false;
@@ -236,27 +257,4 @@
       assetsReady = true;
       closePreloaderWhenReady();
     }, { once:true });
-
-    // Hold marquee name, then drag downward to reveal Korean name.
-    const nameEl = document.getElementById('marqueeName');
-    const langTrigger = document.getElementById('langTrigger');
-    const koreanMarkup = Array(6).fill('<span class="w">고윤정</span><span class="dot">✦</span>').join('');
-    let nameDown = false;
-    let nameStartY = 0;
-    langTrigger.addEventListener('mousedown', (e) => {
-      nameDown = true;
-      nameStartY = e.clientY;
-      langTrigger.style.cursor = 'grabbing';
-      e.preventDefault();
-    });
-    document.addEventListener('mousemove', (e) => {
-      if (!nameDown || e.clientY - nameStartY < 120) return;
-      nameEl.innerHTML = koreanMarkup;
-      langTrigger.setAttribute('aria-label', '고윤정');
-      nameDown = false;
-    });
-    document.addEventListener('mouseup', () => {
-      nameDown = false;
-      langTrigger.style.cursor = 'grab';
-    });
   </script>
